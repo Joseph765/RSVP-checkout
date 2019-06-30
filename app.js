@@ -76,23 +76,30 @@
       const button = e.target;
       const li = button.parentNode;
       const ul = li.parentNode;
-      if (button.textContent === 'remove') {
-        ul.removeChild(li);
-      } else if (button.textContent === 'edit') {
-        const span = li.firstElementChild;
-        const input = document.createElement('input');
-        input.type = 'text';
-        input.value = span.textContent;
-        li.insertBefore(input, span);
-        li.removeChild(span);
-        button.textContent = 'save';
-      } else if (button.textContent === 'save') {
-        const span = document.createElement('span');
-        const input = li.firstElementChild;
-        li.insertBefore(span, input);
-        span.textContent = input.value;
-        li.removeChild(input);
-        button.textContent = 'edit';
+      const action = button.textContent;
+      const nameActions = {
+        remove:  () => {
+          ul.removeChild(li);
+        },
+        edit: () => {
+          const span = li.firstElementChild;
+          const input = document.createElement('input');
+          input.type = 'text';
+          input.value = span.textContent;
+          li.insertBefore(input, span);
+          li.removeChild(span);
+          button.textContent = 'save';
+        },
+        save: () => {
+          const span = document.createElement('span');
+          const input = li.firstElementChild;
+          li.insertBefore(span, input);
+          span.textContent = input.value;
+          li.removeChild(input);
+          button.textContent = 'edit';
+        }
       }
+      // select and run action in button's name
+      nameActions[action]();
     }
   });
